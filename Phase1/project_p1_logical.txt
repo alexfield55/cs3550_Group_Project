@@ -1,1 +1,2 @@
 For the conection from department to student it will connect to major and minor.
+Also all of the foreign key relationships are infered. 
