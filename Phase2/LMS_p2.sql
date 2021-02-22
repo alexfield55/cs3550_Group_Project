@@ -21,7 +21,8 @@ create table final_grade
     score decimal not null,
     sectionID int not null,
     constraint prim_gradeID primary key (gradeID),
-    constraint foreign_sectionID foreign key(sectionID) references section(sectionID)
+    constraint foreign_sectionID foreign key(sectionID) references section(sectionID),
+    constraint letterGradeCheck check (letterGrade in ('A+', 'A', 'A-','B+', 'B', 'B-','C+', 'C', 'C-','D+', 'D', 'D-','F', 'E', 'w', 'I')),
 );
 
 create table discussion
@@ -59,9 +60,11 @@ create table section
     sectionID int not null,
     roomID int,
     teacherID int not null,
+    classNum int not null,
     constraint prim_sectionID primary key (sectionID),
     constraint foreign_roomID foreign key (roomID) references room(roomID),
-    constraint foreign_teacherID foreign key (teacherID) references teacher(teacherID)
+    constraint foreign_teacherID foreign key (teacherID) references teacher(teacherID),
+    constraint foreign_classNum foreign key (classNum) references class(classNum)
 );
 
 create table room
@@ -104,15 +107,6 @@ create table student_section
     constraint composite_prim_key primary key (sectionID, studentID),
     constraint foreign_sectionID foreign key(sectionID) references section(sectionID),
     constraint foreign_studentID foreign key(studentID) references student(studentID)
-);
-
-create table class_section
-(
-    sectionID int not null,
-    classID int not null,
-    constraint composite_prim_key primary key (sectionID, classID),
-    constraint foreign_sectionID foreign key(sectionID) references section(sectionID),
-    constraint foreign_classID foreign key(classID) references class(classID)
 );
 
 create table teacher
@@ -163,7 +157,7 @@ create table department
     description varchar(50) not null,
 );
 
-create table studentassignment
+create table student_assignment
 (
 	assignmentID int not null,
 	studentID int not null,
@@ -175,4 +169,15 @@ create table studentassignment
 	constraint foreign1_sa foreign key(assignmentID) references assignment(assignmentID),
 	constraint foreign2_sa foreign key(studentID) references student(studentID)
 
+);
+
+create table announcements
+(
+    announcementID int not null,
+    title varchar(256) not null,
+    text varchar(2048) not null,
+    dateTime date not null,
+    sectionID int not null,
+    constraint prim_announcmentID primary key (announcementID),
+    constraint foreign_sectionID foreign key(sectionID) references section(sectionID)
 );
