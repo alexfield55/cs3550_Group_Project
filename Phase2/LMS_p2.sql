@@ -6,11 +6,11 @@ use LMS;
 
 create table module
 (
-    moduleNum int not null,
+    moduleID int not null,
     title varchar(50),
     name varchar(50),
     sectionID in not null,
-    constraint prim_moduleNum primary key (moduleNum),
+    constraint prim_moduleID primary key (moduleID),
     constraint foreign_sectionID foreign key(sectionID) references section(sectionID)
 );
 
@@ -60,19 +60,19 @@ create table section
     sectionID int not null,
     roomID int,
     teacherID int not null,
-    classNum int not null,
+    classID int not null,
     constraint prim_sectionID primary key (sectionID),
     constraint foreign_roomID foreign key (roomID) references room(roomID),
     constraint foreign_teacherID foreign key (teacherID) references teacher(teacherID),
-    constraint foreign_classNum foreign key (classNum) references class(classNum)
+    constraint foreign_classID foreign key (classID) references class(classID)
 );
 
 create table room
 (
-    roomNum int not null,
+    roomID int not null,
     roomType varchar(50),
     buildingID int not null,
-    constraint prim_roomNum primary key (roomNum),
+    constraint prim_roomID primary key (roomID),
     constraint foreign_buildingID foreign key (buildingID) references building(buildingID)
 );
 
@@ -87,7 +87,7 @@ create table building
 create table assignment
 (
     --alex changed this a bit, basically copied it from a previous assignemnt
-	assignment_id int not null,
+	assignmentID int not null,
 	description varchar(50),
 	due_date date not null, 
 	max_possible_grade float,
@@ -96,7 +96,7 @@ create table assignment
 	constraint submission_names check (submission_type in ('Text Entry', 'Media Recording', 'File Upload', 'Website URL')),
 	constraint max_grade check (max_possible_grade <= 100),
 	constraint min_grade check (max_possible_grade >= 0),
-	constraint prim_assignmentID primary key (assignment_id)
+	constraint prim_assignmentID primary key (assignmentID)
 
 );
 
@@ -116,10 +116,10 @@ create table teacher
 	lname varchar(50) not null,
     username varchar(50) not null, --alex added
 	email varchar(50) not null,
-	deptNum int not null,
+	deptID int not null,
 	constraint unique_email unique (email),
 	constraint prim_teacherID primary key (teacherID),
-    constraint foreign_deptNum foreign key (deptNum) references department(deptNum)
+    constraint foreign_deptID foreign key (deptID) references department(deptID)
 );
 
 create table student
@@ -134,25 +134,25 @@ create table student
     minorID int, --this is not normal
 	constraint unique_email unique (email),
 	constraint prim_studentID primary key (studentID),
-    constraint foreign_minor foreign key (minorID) references department(deptNum),
-    constraint foreign_major foreign key (majorID) references department(deptNum),
+    constraint foreign_minor foreign key (minorID) references department(deptID),
+    constraint foreign_major foreign key (majorID) references department(deptID),
 );
 
 create table class
 (
-    classNum int not null,
+    classID int not null,
     name varchar(20) not null, --alex added
     description varchar(50) not null,
     prerequisites int not null, --this is not normalized
-    deptNum int not null,
-    constraint prim_classNum primary key (classNum),
-    constraint foreign_deptNum foreign key (deptNum) references department(deptNum)
+    deptID int not null,
+    constraint prim_classID primary key (classID),
+    constraint foreign_deptID foreign key (deptID) references department(deptID)
     
 );
 
 create table department
 (
-    deptNum int not null,
+    deptID int not null,
     name varchar(10) not null, --changed shortname to this
     description varchar(50) not null,
 );
