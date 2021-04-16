@@ -44,9 +44,28 @@ INNER JOIN assignment ON assignment.sectionID = student_section.sectionID
 WHERE assignment.sectionID = 3
 
 -- 7
+--How many classes have more than one section, ordered by most classes
+SELECT class.name, count(section.sectionID) AS num_sections FROM class
+INNER JOIN section ON class.classID = section.classID
+WHERE count(section.sectionID) > 1
+ORDER BY count(section.sectionID) DESC
 
 -- 8
+--Find all classes that a teacher is teaching
+SELECT class.name, description, section.sectionID, teacher.fname, teacher.lname FROM class,
+INNER JOIN section on class.classID = section.classID
+INNER JOIN teacher on teacher.sectionID = sectionID
+WHERE teacher.fname = "John" and teacher.lname = "Doe"
 
 -- 9
+--find all announcements for a certain class
+select class.name, section.sectionID, announcements.title, announcments.text FROM class
+INNER JOIN section on class.classID = section.classID
+INNER JOIN announcements on announcements.sectionID = section.sectionID
+WHERE class.name = "Adv Database"
 
 -- 10
+--Find all teachers in a particular department
+select teacher.fname, teacher.lname, department.name, from teacher
+INNER JOIN department on department.departmentID = teacher.departmentID
+WHERE department.name = "Computer Science"
